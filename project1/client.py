@@ -4,6 +4,10 @@ import argparse #https://www.geeksforgeeks.org/python/python-how-to-parse-comman
 
 parser = argparse.ArgumentParser
 parser.add_argument('-p', '--port', type=int)
+parser.add_argument('-s', action='store_true')
+parser.add_argument('hostname')
+parser.add_argument('username')
+args = parser.parse_args()
 
 if args.port:
     port = args.port
