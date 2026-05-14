@@ -141,7 +141,6 @@ def main():
         elif response["type"] == "retry":
             last_guess = response["guesses"][-1]
             word, marks = last_guess["word"], last_guess["marks"]
-            print(guess, marks, len(words))
             words = filter_words(words, word, marks)
 
     s.close()
