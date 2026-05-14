@@ -78,6 +78,7 @@ def recv_message(s):
         response: JSON response as a dictonary
     '''
     buf = b''
+    buf += 4096
     while True:
         chunk = s.recv(4096)
         buf += chunk
