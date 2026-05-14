@@ -51,8 +51,6 @@ def connect_socket(hostname, port, use_tls):
     # https://docs.python.org/3/library/ssl.html for TLS socket :(
     if use_tls:
         context = ssl.create_default_context()
-        context.check_hostname = False
-        context.verify_mode = ssl.CERT_NONE
         s = context.wrap_socket(s, server_hostname = hostname)
 
     return s
