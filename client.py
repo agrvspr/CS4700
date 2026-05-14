@@ -76,8 +76,11 @@ def recv_message(s):
         response: JSON response as a dictonary
     '''
     buf = b''
-    while not buf.endswith(b'\n'):
-        buf += s.recv(4096)
+    while True:
+        chunk = s.recv(4096)
+        buf += chunk
+        if buf.endswith(b'\n'):
+            break
     return json.loads(buf.decode())
 
 def load_words():
