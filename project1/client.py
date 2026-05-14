@@ -115,7 +115,7 @@ def filter_words(words, word, marks):
 def main():
     args = parse_args()
     port = get_port(args)
-    s = connect_socket(args.hostname, port. args.s)
+    s = connect_socket(args.hostname, port, args.s)
 
     send_message(s, {"type": "hello", "northeastern_username": "jea.d"})
     response = recv_message(s)
