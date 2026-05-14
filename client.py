@@ -129,11 +129,6 @@ def main():
     words = load_words()
 
     while True:
-        if not words:
-            s.close()
-            print(words)
-            break
-        
         guess = words[0]
         send_message(s, {"type": "guess", "id": my_id, "word": guess})
         response = recv_message(s)
