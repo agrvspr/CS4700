@@ -46,12 +46,12 @@ def connect_socket(hostname, port, use_tls):
     '''
     # Inet streaming socket
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((hostname, port))
-
     # https://docs.python.org/3/library/ssl.html for TLS socket :(
     if use_tls:
         context = ssl.create_default_context()
         s = context.wrap_socket(s, server_hostname = hostname)
+    
+    s.connect((hostname, port))
 
     return s
 
@@ -83,6 +83,8 @@ def recv_message(s):
         buf += chunk
         if b'\n' in buf:
             break
+    if not buf:
+        raise ConnectionError("Server closed connection before sending data")
     return json.loads(buf.decode().strip())
 
 def load_words():
@@ -123,6 +125,7 @@ def main():
     args = parse_args()
     port = get_port(args)
     s = connect_socket(args.hostname, port, args.s)
+
 
     send_message(s, {"type": "hello", "northeastern_username": args.username})
     response = recv_message(s)
