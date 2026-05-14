@@ -78,10 +78,12 @@ def recv_message(s):
     buf = b''
     while True:
         chunk = s.recv(4096)
-        buf += chunk
-        if buf.endswith(b'\n'):
+        if not chunk:
             break
-    return json.loads(buf.decode())
+        buf += chunk
+        if b'\n' in buf:
+            break
+    return json.loads(buf.decode().strip())
 
 def load_words():
     '''
