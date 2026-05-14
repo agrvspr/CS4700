@@ -92,34 +92,56 @@ def load_words():
     with open('wordlist.txt') as f:
         return [line.strip() for line in f]
 
-def filter_words(words, word, marks):
+def filter_words(words, guess, marks):
     '''
     Filters the word list based on marks returned from the server.
     Parameters:
         words: The current list of candidate words
-        word: The word that was guessed
+        guess: The word that was guessed
         marks: The list of marks returned by the server for that guess
     Returns:
         words: The filtered list of candidate words
     '''
-    for index in range(len(word)):
-        char = word[index]
-        mark = marks[index]
+    filtered = []
+    
+    for w in words:
+        valid = True
+
+        for i in range(5):
+            char = guess[i]
+            mark = marks[i]
+
         if mark == 2:
-            words = [w for w in words if w[index] == char]
-        elif mark == 1:
-            words = [w for w in words if char in w and w[index] != char]
-        elif mark == 0:
-            if char not in [word[j] for j in range(len(word)) if marks[j] in (1, 2)]:
-                words = [w for w in words if char not in w]
-    return words
+            if w[i] != char:
+                    valid = False
+                    break
+
+            # exists elsewhere
+            elif mark == 1:
+                if char not in w or w[i] == char:
+                    valid = False
+                    break
+
+            # not in word
+            elif mark == 0:
+                if char in w:
+                    valid = False
+                    break
+        
+        if valid:
+            filtered.append(w)
+
+    if guess in filtered:
+        filtered.remove(guess)
+
+    return filtered
 
 def main():
     args = parse_args()
     port = get_port(args)
     s = connect_socket(args.hostname, port, args.s)
 
-    send_message(s, {"type": "hello", "northeastern_username": "jea.d"})
+    send_message(s, {"type": "hello", "northeastern_username": args.username})
     response = recv_message(s)
     my_id = response["id"]
 
@@ -127,7 +149,6 @@ def main():
 
     while True:
         if not words:
-            print("word list empty")
             s.close()
             break
         
