@@ -102,39 +102,17 @@ def filter_words(words, guess, marks):
     Returns:
         words: The filtered list of candidate words
     '''
-    filtered = []
-    
-    for w in words:
-        valid = True
-
-        for i in range(5):
-            char = guess[i]
-            mark = marks[i]
-
+    for index in range(len(guess)):
+        char = guess[index]
+        mark = marks[index]
         if mark == 2:
-            if w[i] != char:
-                    valid = False
-                    break
-
-            # exists elsewhere
-            elif mark == 1:
-                if char not in w or w[i] == char:
-                    valid = False
-                    break
-
-            # not in word
-            elif mark == 0:
-                if char in w:
-                    valid = False
-                    break
-        
-        if valid:
-            filtered.append(w)
-
-    if guess in filtered:
-        filtered.remove(guess)
-
-    return filtered
+            words = [w for w in words if w[index] == char]
+        elif mark == 1:
+            words = [w for w in words if char in w and w[index] != char]
+        elif mark == 0:
+            if char not in [guess[j] for j in range(len(guess)) if marks[j] in (1, 2)]:
+                words = [w for w in words if char not in w]
+    return words
 
 def main():
     args = parse_args()
@@ -150,6 +128,7 @@ def main():
     while True:
         if not words:
             s.close()
+            print(words)
             break
         
         guess = words[0]
@@ -162,6 +141,7 @@ def main():
         elif response["type"] == "retry":
             last_guess = response["guesses"][-1]
             word, marks = last_guess["word"], last_guess["marks"]
+            print(guess, marks, len(words))
             words = filter_words(words, word, marks)
 
     s.close()

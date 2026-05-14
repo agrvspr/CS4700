@@ -12,3 +12,5 @@ Guessing strategy for first attempt is just go to through the first word, see wh
 Issues with windows being BAD. had to switch to linux line or something, but dos2unix wasnt working, so I had to lookup a different way and sed -i 's/\r$//' client
 
 For code development support, I guess we can include the small talk before the quiz makeup where I basically outlined what I wanted to do and asked about whether to do this in C or python
+
+Thank you whoever made those gradescope comments for helping me figure out issues :D
