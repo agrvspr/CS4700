@@ -1,1 +1,1 @@
-# CS4700
+# CS4700 Projects
