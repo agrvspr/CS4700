@@ -9,6 +9,6 @@ High Level approach to Socket Wordle Project:
 
 Guessing strategy for first attempt is just go to through the first word, see which letters are in correct spaces. Remove all other letters that cannot be in the word, and just retry again.
 
-Issues with client itself. Since there was apparantly Windows CRLF endings (DONT ASK ME WHAT THAT IS), even though I was using codespaces, linux was running /bin/bash^M instead of just /bin/bash
+Issues with windows being BAD. had to switch to linux line or something, but dos2unix wasnt working, so I had to lookup a different way and sed -i 's/\r$//' client
 
-sed -i 's/\r$//' client
+For code development support, I guess we can include the small talk before the quiz makeup where I basically outlined what I wanted to do and asked about whether to do this in C or python

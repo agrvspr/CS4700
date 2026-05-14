@@ -107,6 +107,8 @@ def filter_words(words, word, marks):
         mark = marks[index]
         if mark == 2:
             words = [w for w in words if w[index] == char]
+        elif mark == 1:
+            words = [w for w in words if char in w and w[i] != ch]
         elif mark == 0:
             if char not in [word[j] for j in range(len(word)) if marks[j] in (1, 2)]:
                 words = [w for w in words if char not in w]
