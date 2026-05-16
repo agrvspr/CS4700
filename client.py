@@ -78,6 +78,8 @@ def recv_message(s):
     buf = b''
     while True:
         chunk = s.recv(4096)
+        if not chunk:
+            break
         buf += chunk
         if buf.endswith(b'\n'):
             break
